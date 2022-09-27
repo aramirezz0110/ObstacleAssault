@@ -29,23 +29,31 @@ void AMovingPlatform::Tick(float DeltaTime)
 	RotatePlatform(DeltaTime);
 }
 void AMovingPlatform::MovePlatform(float deltaTime) 
-{
-	FVector currentLocation = GetActorLocation();
-	currentLocation = currentLocation + (platformVelocity * deltaTime);
-	SetActorLocation(currentLocation);
-
-	distanceMoved = FVector::Dist(startLocation, currentLocation);
-
-	if (distanceMoved > moveDistance)
+{	
+	if (ShouldPlatformReturn())
 	{
 		FVector moveDirection = platformVelocity.GetSafeNormal();
 		startLocation = startLocation + moveDirection * moveDistance;
 		SetActorLocation(startLocation);
 		platformVelocity = -platformVelocity;
 	}
+	else
+	{
+		FVector currentLocation = GetActorLocation();
+		currentLocation = currentLocation + (platformVelocity * deltaTime);
+		SetActorLocation(currentLocation);
+	}
 }
 void AMovingPlatform::RotatePlatform(float deltaTime) 
 {
 	UE_LOG(LogTemp, Display, TEXT("Rotating platform!"));
+}
+bool AMovingPlatform::ShouldPlatformReturn()
+{	
+	return GetDistanceMoved() > moveDistance;
+}
+float AMovingPlatform::GetDistanceMoved()
+{
+	return 	FVector::Dist(startLocation, GetActorLocation());
 }
 
