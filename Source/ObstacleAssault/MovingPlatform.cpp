@@ -14,28 +14,38 @@ AMovingPlatform::AMovingPlatform()
 // Called when the game starts or when spawned
 void AMovingPlatform::BeginPlay()
 {
-	Super::BeginPlay();
-	
+	Super::BeginPlay();	
 	startLocation = GetActorLocation();
+
+	FString myString = "Custom Message";
+	UE_LOG(LogTemp, Display, TEXT("Console log: %s"), *myString);
 }
 
 // Called every frame
 void AMovingPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);	
-	//getting current actor location
+	MovePlatform(DeltaTime);
+	RotatePlatform(DeltaTime);
+}
+void AMovingPlatform::MovePlatform(float deltaTime) 
+{
 	FVector currentLocation = GetActorLocation();
-	currentLocation = currentLocation+(platformVelocity * DeltaTime);
+	currentLocation = currentLocation + (platformVelocity * deltaTime);
 	SetActorLocation(currentLocation);
 
 	distanceMoved = FVector::Dist(startLocation, currentLocation);
 
-	if (distanceMoved > moveDistance) 
+	if (distanceMoved > moveDistance)
 	{
 		FVector moveDirection = platformVelocity.GetSafeNormal();
 		startLocation = startLocation + moveDirection * moveDistance;
 		SetActorLocation(startLocation);
 		platformVelocity = -platformVelocity;
 	}
+}
+void AMovingPlatform::RotatePlatform(float deltaTime) 
+{
+	UE_LOG(LogTemp, Display, TEXT("Rotating platform!"));
 }
 
