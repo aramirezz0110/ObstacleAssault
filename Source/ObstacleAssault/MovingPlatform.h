@@ -25,15 +25,18 @@ public:
 
 private:	
 
-	UPROPERTY(EditAnywhere, Category = movingPlatform)
+	UPROPERTY(EditAnywhere)
 		FVector platformVelocity = FVector(100, 0, 0);
 	
-	UPROPERTY(EditAnywhere, Category = movingPlatform)
+	UPROPERTY(EditAnywhere)
 		float moveDistance = 100;
+
+	UPROPERTY(EditAnywhere)
+		FRotator rotationVelocity;
 
 	UPROPERTY(VisibleAnywhere)
 		float distanceMoved=-1;
-
+	
 	FString movingPlatform = "Moving Platform";
 	FVector startLocation;
 
